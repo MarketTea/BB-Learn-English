@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "334106320025",
+    "project_id": "lyricaudio-2797a",
+    "storage_bucket": "lyricaudio-2797a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:334106320025:android:3ecdb3055ae959cc516c08",
+        "android_client_info": {
+          "package_name": "bb.team.lyric_audio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "334106320025-8nspvnh8fbvhi4s6oehndbkoetkt117h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC70ZLuSTXRg6jhhvcdU-zurwm0cY7oVNQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "334106320025-8nspvnh8fbvhi4s6oehndbkoetkt117h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
