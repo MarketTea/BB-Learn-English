@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-class Learn extends StatefulWidget {
+class VocabularyPage extends StatefulWidget {
   @override
-  _LearnState createState() => _LearnState();
+  _VocabularyPageState createState() => _VocabularyPageState();
 }
 
-class _LearnState extends State<Learn> {
+class _VocabularyPageState extends State<VocabularyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white.withOpacity(0.9),
         appBar: AppBar(
           titleSpacing: 0,
-          title: Text("Learn"),
+          title: Text("Vocabulary"),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.favorite),
@@ -24,8 +24,8 @@ class _LearnState extends State<Learn> {
           onPressed: () {},
           child: Icon(Icons.search),
         ),
-        body: Container(
-          child: Text('Learn JP'),
+        body: Center(
+          child: Text('Learn Vocabulary'),
         ));
   }
 }

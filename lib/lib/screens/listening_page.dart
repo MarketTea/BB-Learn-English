@@ -2,10 +2,10 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lyric_audio/lib/bloc/player_bloc.dart';
+import 'package:lyric_audio/lib/bloc/player_event.dart';
+import 'package:lyric_audio/lib/bloc/player_state.dart';
 import 'package:lyric_audio/lib/components/player.dart';
-import 'package:lyric_audio/lib/playerbloc/player_bloc.dart';
-import 'package:lyric_audio/lib/playerbloc/player_event.dart';
-import 'package:lyric_audio/lib/playerbloc/player_state.dart';
 import 'package:provider/provider.dart';
 
 class Listening extends StatefulWidget {
@@ -54,8 +54,7 @@ class _ListenState extends State<Listening> {
                               vertical: 15.0, horizontal: 10),
                           child: Row(
                             children: <Widget>[
-                              Text(listening[index].data['title'] +
-                                  index.toString()),
+                              Text(listening[index].data['title']),
                               Spacer(),
                               Icon(Icons.play_circle_filled)
                             ],

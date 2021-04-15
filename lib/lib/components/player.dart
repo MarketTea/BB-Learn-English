@@ -26,7 +26,7 @@ class _PlayerState extends State<Player> {
     var audioPlayer = Provider.of<AudioPlayer>(context);
     audioPlayer.play(widget.audioPath, isLocal: false);
     return Container(
-      height: 150,
+      height: 250,
       child: Material(
         color: Colors.redAccent,
         borderRadius: BorderRadius.only(
@@ -57,9 +57,7 @@ class _PlayerState extends State<Player> {
                         isPlay = !isPlay;
                       });
                       try {
-                        isPlay
-                            ? await audioPlayer.resume()
-                            : await audioPlayer.pause();
+                        isPlay ? await audioPlayer.resume() : await audioPlayer.pause();
                       } catch (e) {
                         print(e);
                       }
@@ -68,7 +66,7 @@ class _PlayerState extends State<Player> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 3.0, horizontal: 5),
                       child: Icon(
-                        isPlay ? Icons.pause : Icons.stop,
+                        isPlay ? Icons.pause : Icons.play_arrow,
                         color: Colors.white,
                         size: 30,
                       ),

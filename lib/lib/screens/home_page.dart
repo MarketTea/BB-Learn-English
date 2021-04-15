@@ -2,22 +2,85 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:lyric_audio/lib/components/learn_item.dart';
 import 'package:lyric_audio/lib/components/news.dart';
+import 'package:lyric_audio/lib/screens/setting_page.dart';
 
-import 'Kanji.dart';
-import 'Learn.dart';
-import 'Listening.dart';
+import 'grammar_page.dart';
+import 'vocabulary_page.dart';
+import 'listening_page.dart';
 
-
-class App extends StatelessWidget {
+class HomePage extends StatelessWidget {
   final learns = [
+    {"src": "assets/onbarad1.png", "route": VocabularyPage(), "title": "Vocabulary"},
     {
-      "src": "assets/onbarad1.png",
-      "route": Learn(),
-      "title": "Vocabulary"
+      "src": "assets/onbarad2.png",
+      "route": Grammar(),
+      "title": "Grammar and Exercise"
     },
-    {"src": "assets/onbarad2.png", "route": Kanji(), "title": "Grammar and Exercise"},
     {"src": "assets/listening.png", "route": Listening(), "title": "Listening"}
   ];
+
+  Drawer _buildDrawer(context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          DrawerHeader(
+            child: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    radius: 30.0,
+                    backgroundColor: Colors.transparent,
+                    backgroundImage: NetworkImage(
+                        "https://i.pinimg.com/564x/49/fb/60/49fb60486d4c91217404bbe54e0f3695.jpg"),
+                  ),
+                  Text('Market Tea',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold)),
+                  Text('Mobile Developer',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold))
+                ],
+              ),
+            ),
+            decoration: BoxDecoration(color: Colors.red),
+          ),
+          ListTile(
+            leading: Icon(Icons.photo),
+            title: Text('Photos'),
+            onTap: () {
+              print('Click photos');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.notifications),
+            title: Text('Notifications'),
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Settings'),
+            onTap: () {
+              Navigator.push(context,
+                  new MaterialPageRoute(builder: (context) => Setting()));
+              print('Click settings');
+            },
+          ),
+          Divider(
+            color: Colors.black45,
+            indent: 16.0,
+          ),
+          ListTile(
+            title: Text('About us'),
+          ),
+          ListTile(
+            title: Text('Privacy'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +89,14 @@ class App extends StatelessWidget {
 
     return Scaffold(
         backgroundColor: Colors.white.withOpacity(0.9),
+        appBar: AppBar(
+          elevation: 0,
+        ),
+        drawer: _buildDrawer(context),
         body: Stack(
           children: <Widget>[
             Container(
-                padding: EdgeInsets.only(top: 35),
+                padding: EdgeInsets.only(top: 20),
                 width: width,
                 height: height / 3.5,
                 decoration: BoxDecoration(
@@ -41,19 +108,10 @@ class App extends StatelessWidget {
                 child: Wrap(
                   crossAxisAlignment: WrapCrossAlignment.start,
                   children: <Widget>[
-                    IconButton(
-                      onPressed: () {},
-                      icon: Image.asset(
-                        "assets/png/menu.png",
-                        width: 35,
-                        height: 40,
-                        fit: BoxFit.fill,
-                      ),
-                    ),
                     ListTile(
                       contentPadding: EdgeInsets.only(left: 10),
                       title: Text(
-                        "Learn Japanese Language",
+                        "Learn English Language",
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -113,11 +171,11 @@ class App extends StatelessWidget {
                           children: <Widget>[
                             News(
                               icon: Icon(
-                                Icons.language,
+                                Icons.featured_play_list_rounded,
                                 color: Colors.redAccent,
                               ),
                               onPressed: () {},
-                              text: Text("Language"),
+                              text: Text("Programs"),
                             ),
                             News(
                               icon: Icon(

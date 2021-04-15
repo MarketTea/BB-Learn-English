@@ -2,9 +2,10 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lyric_audio/lib/playerbloc/player_bloc.dart';
-import 'package:lyric_audio/lib/screens/App.dart';
+import 'package:lyric_audio/lib/screens/home_page.dart';
 import 'package:provider/provider.dart';
+
+import 'bloc/player_bloc.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
               primaryColor: Color.fromRGBO(245, 41, 40, 1),
               accentColor: Colors.redAccent),
-          home: App(),
+          home: HomePage(),
         ),
       ),
     );
