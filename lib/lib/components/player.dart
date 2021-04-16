@@ -21,10 +21,19 @@ class _PlayerState extends State<Player> {
   LyricController controller = LyricController();
   bool isPlay = true;
 
+  AudioPlayer _audioPlayer;
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _audioPlayer.stop();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var audioPlayer = Provider.of<AudioPlayer>(context);
-    audioPlayer.play(widget.audioPath, isLocal: false);
+    _audioPlayer = Provider.of<AudioPlayer>(context);
+    _audioPlayer.play(widget.audioPath, isLocal: false);
     return Container(
       height: 250,
       child: Material(
@@ -57,7 +66,7 @@ class _PlayerState extends State<Player> {
                         isPlay = !isPlay;
                       });
                       try {
-                        isPlay ? await audioPlayer.resume() : await audioPlayer.pause();
+                        isPlay ? await _audioPlayer.resume() : await _audioPlayer.pause();
                       } catch (e) {
                         print(e);
                       }
@@ -66,7 +75,7 @@ class _PlayerState extends State<Player> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 3.0, horizontal: 5),
                       child: Icon(
-                        isPlay ? Icons.pause : Icons.play_arrow,
+                        isPlay ? Icons.pause : Icons.stop,
                         color: Colors.white,
                         size: 30,
                       ),
@@ -75,12 +84,12 @@ class _PlayerState extends State<Player> {
                 ),
                 StreamBuilder<Duration>(
                     initialData: duration,
-                    stream: audioPlayer.onDurationChanged,
+                    stream: _audioPlayer.onDurationChanged,
                     builder: (_, durationSnap) {
                       duration = durationSnap.data;
                       return StreamBuilder<Duration>(
                           initialData: Duration(),
-                          stream: audioPlayer.onAudioPositionChanged,
+                          stream: _audioPlayer.onAudioPositionChanged,
                           builder: (_, snap) {
                             controller.progress = snap.data;
                             return Expanded(
@@ -93,8 +102,7 @@ class _PlayerState extends State<Player> {
                                 max: duration.inMilliseconds.toDouble(),
                                 onChangeEnd: (d) {
                                   if (duration > snap.data) {
-                                    audioPlayer.seek(
-                                        Duration(milliseconds: d.toInt()));
+                                    _audioPlayer.seek(Duration(milliseconds: d.toInt()));
                                   }
                                 },
                                 onChanged: (d) {},

@@ -10,6 +10,9 @@ class Grammar extends StatelessWidget {
         title: Text("Grammar"),
         titleSpacing: 0,
       ),
+      body: Center(
+        child: Text('Grammar'),
+      ),
     );
   }
 }

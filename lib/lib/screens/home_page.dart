@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:lyric_audio/lib/animation/PageAnimation.dart';
 import 'package:lyric_audio/lib/components/learn_item.dart';
 import 'package:lyric_audio/lib/components/news.dart';
 import 'package:lyric_audio/lib/screens/setting_page.dart';
@@ -62,8 +63,8 @@ class HomePage extends StatelessWidget {
             leading: Icon(Icons.settings),
             title: Text('Settings'),
             onTap: () {
-              Navigator.push(context,
-                  new MaterialPageRoute(builder: (context) => Setting()));
+              Navigator.of(context)
+                  .push(PageAnimation(child: Setting()));
               print('Click settings');
             },
           ),

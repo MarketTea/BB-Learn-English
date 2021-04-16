@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class PageAnimation extends PageRouteBuilder {
   final Widget child;
+
   PageAnimation({this.child})
       : super(
             transitionsBuilder: (context, animation, secondAnimation, widget) {
