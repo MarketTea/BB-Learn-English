@@ -33,6 +33,8 @@ dependencies:
   flutter_bloc: ^4.0.0
   equatable: ^1.1.1
   audioplayers: ^0.18.3
+  http: any
+  youtube_player_flutter: ^6.1.1
 
 dev_dependencies:
   flutter_test:

@@ -325,7 +325,7 @@ packages:
     source: hosted
     version: "0.2.0"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -623,6 +623,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  webview_media:
+    dependency: transitive
+    description:
+      name: webview_media
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   win32:
     dependency: transitive
     description:
@@ -644,6 +651,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.0"
+  youtube_player_flutter:
+    dependency: "direct main"
+    description:
+      name: youtube_player_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.1.1"
 sdks:
   dart: ">=2.12.0 <3.0.0"
   flutter: ">=1.20.0"

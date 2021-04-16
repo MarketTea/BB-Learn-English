@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:lyric_audio/lib/animation/PageAnimation.dart';
 import 'package:lyric_audio/lib/components/learn_item.dart';
 import 'package:lyric_audio/lib/components/news.dart';
+import 'package:lyric_audio/lib/screens/news_page.dart';
 import 'package:lyric_audio/lib/screens/setting_page.dart';
+import 'package:lyric_audio/lib/screens/video_page.dart';
 
 import 'grammar_page.dart';
 import 'vocabulary_page.dart';
@@ -11,7 +13,11 @@ import 'listening_page.dart';
 
 class HomePage extends StatelessWidget {
   final learns = [
-    {"src": "assets/onbarad1.png", "route": VocabularyPage(), "title": "Vocabulary"},
+    {
+      "src": "assets/onbarad1.png",
+      "route": VocabularyPage(),
+      "title": "Vocabulary"
+    },
     {
       "src": "assets/onbarad2.png",
       "route": Grammar(),
@@ -63,8 +69,7 @@ class HomePage extends StatelessWidget {
             leading: Icon(Icons.settings),
             title: Text('Settings'),
             onTap: () {
-              Navigator.of(context)
-                  .push(PageAnimation(child: Setting()));
+              Navigator.of(context).push(PageAnimation(child: Setting()));
               print('Click settings');
             },
           ),
@@ -155,7 +160,10 @@ class HomePage extends StatelessWidget {
                                 Icons.video_collection,
                                 color: Colors.redAccent,
                               ),
-                              onPressed: () async {},
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .push(PageAnimation(child: VideoPage()));
+                              },
                               text: Text("Videos"),
                             ),
                             News(
@@ -183,7 +191,10 @@ class HomePage extends StatelessWidget {
                                 Icons.fiber_new,
                                 color: Colors.redAccent,
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .push(PageAnimation(child: NewsPage()));
+                              },
                               text: Text("News"),
                             ),
                           ],
