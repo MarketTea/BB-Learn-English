@@ -1,12 +1,11 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lyric_audio/lib/animation/PageAnimation.dart';
 import 'package:lyric_audio/lib/bloc/player_bloc.dart';
 import 'package:lyric_audio/lib/bloc/player_event.dart';
-import 'package:lyric_audio/lib/bloc/player_state.dart';
-import 'package:lyric_audio/lib/components/player.dart';
-import 'package:provider/provider.dart';
+
+import 'listening_detail_page.dart';
 
 class Listening extends StatefulWidget {
   @override
@@ -45,19 +44,83 @@ class _ListenState extends State<Listening> {
                       child: InkWell(
                         borderRadius: BorderRadius.circular(5),
                         onTap: () {
+                          Navigator.of(context)
+                              .push(PageAnimation(child: ListeningDetail()));
                           context.bloc<PlayerBloc>().add(PlayEvent(
                               audioUrl: listening[index].data['audio'],
                               lrcUrl: listening[index].data['lrc']));
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15.0, horizontal: 10),
-                          child: Row(
-                            children: <Widget>[
-                              Text(listening[index].data['title']),
-                              Spacer(),
-                              Icon(Icons.play_circle_filled)
-                            ],
+                        child: Container(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 15.0, horizontal: 10),
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  height: 200.0,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: NetworkImage(
+                                            listening[index].data['image']),
+                                        fit: BoxFit.cover),
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 8.0,
+                                ),
+                                Container(
+                                  padding: EdgeInsets.all(6.0),
+                                  decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius:
+                                          BorderRadius.circular(30.0)),
+                                  child: Text(
+                                    listening[index].data['title'],
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                SizedBox(height: 8),
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(Icons.favorite_outlined,
+                                              color: Colors.black38),
+                                          SizedBox(width: 4),
+                                          Text(
+                                            listening[index]
+                                                    .data['viewer']
+                                                    .toString() ??
+                                                "Empty",
+                                            style: TextStyle(
+                                                color: Colors.black38),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(width: 16),
+                                      Row(
+                                        children: [
+                                          Icon(Icons.cloud_download_sharp,
+                                              color: Colors.black38),
+                                          SizedBox(width: 4),
+                                          Text(
+                                            listening[index]
+                                                    .data['dowload']
+                                                    .toString() ??
+                                                "Empty",
+                                            style: TextStyle(
+                                                color: Colors.black38),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -73,25 +136,6 @@ class _ListenState extends State<Listening> {
           }
           return Container();
         },
-      ),
-      bottomSheet: Provider<AudioPlayer>(
-        create: (_) => AudioPlayer(playerId: "myplayer"),
-        child: BlocBuilder<PlayerBloc, PlayerState>(
-          builder: (cxt, state) {
-            // state is new state updated
-            print(state);
-            if (state is PlayerLoading) {
-              return Player(false);
-            }
-            if (state is PlayerReadyState) {
-              return Player(true,
-                  audioPath: state.audioPath, lyrics: state.lyrics);
-            }
-            return Player(
-              false,
-            );
-          },
-        ),
       ),
     );
   }

@@ -35,11 +35,11 @@ class _PlayerState extends State<Player> {
     _audioPlayer = Provider.of<AudioPlayer>(context);
     _audioPlayer.play(widget.audioPath, isLocal: false);
     return Container(
-      height: 250,
+      // height: 250,
       child: Material(
-        color: Colors.redAccent,
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+        // color: Colors.redAccent,
+        // borderRadius: BorderRadius.only(
+        //     topLeft: Radius.circular(20), topRight: Radius.circular(20)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
@@ -49,9 +49,9 @@ class _PlayerState extends State<Player> {
                       size: Size(double.infinity, double.infinity),
                       lyrics: widget.lyrics,
                       controller: controller,
-                      currLyricStyle: TextStyle(color: Colors.white),
+                      currLyricStyle: TextStyle(color: Colors.blue),
                       lyricStyle:
-                          TextStyle(color: Colors.white.withOpacity(0.5)),
+                          TextStyle(color: Colors.black.withOpacity(0.5)),
                     ),
                   )
                 : Text("No Lyric"),
@@ -76,7 +76,7 @@ class _PlayerState extends State<Player> {
                           vertical: 3.0, horizontal: 5),
                       child: Icon(
                         isPlay ? Icons.pause : Icons.stop,
-                        color: Colors.white,
+                        color: Colors.blue,
                         size: 30,
                       ),
                     ),
@@ -94,7 +94,7 @@ class _PlayerState extends State<Player> {
                             controller.progress = snap.data;
                             return Expanded(
                               child: Slider(
-                                activeColor: Colors.white,
+                                activeColor: Colors.blueAccent,
                                 value: snap.data.inMilliseconds.toDouble() >
                                         duration.inMilliseconds.toDouble()
                                     ? 0.0

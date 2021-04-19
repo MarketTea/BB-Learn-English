@@ -35,6 +35,7 @@ dependencies:
   audioplayers: ^0.18.3
   http: any
   youtube_player_flutter: ^6.1.1
+  flutter_share: ^1.0.5
 
 dev_dependencies:
   flutter_test:
@@ -53,6 +54,7 @@ flutter:
     - assets/png/appbar2.png
     - assets/audio_0.lrc
     - assets/audio_0.mp3
+    - assets/duo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
