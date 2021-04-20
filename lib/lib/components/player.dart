@@ -5,6 +5,7 @@ import 'package:lyric_audio/lib/Lyrics/lyric_controller.dart';
 import 'package:lyric_audio/lib/Lyrics/lyric_widget.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class Player extends StatefulWidget {
   final bool play;
   String audioPath;
@@ -19,7 +20,8 @@ class Player extends StatefulWidget {
 class _PlayerState extends State<Player> {
   Duration duration = Duration(milliseconds: 0);
   LyricController controller = LyricController();
-  bool isPlay = true;
+  bool playing = false; // at the beginning, not playing any song
+  IconData btnPlay = Icons.play_arrow; // the main state of the play button
 
   AudioPlayer _audioPlayer;
 
@@ -33,7 +35,7 @@ class _PlayerState extends State<Player> {
   @override
   Widget build(BuildContext context) {
     _audioPlayer = Provider.of<AudioPlayer>(context);
-    _audioPlayer.play(widget.audioPath, isLocal: false);
+    //_audioPlayer.play(widget.audioPath, isLocal: false);
     return Container(
       // height: 250,
       child: Material(
@@ -57,31 +59,25 @@ class _PlayerState extends State<Player> {
                 : Text("No Lyric"),
             Row(
               children: <Widget>[
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(3),
-                    onTap: () async {
-                      setState(() {
-                        isPlay = !isPlay;
-                      });
-                      try {
-                        isPlay ? await _audioPlayer.resume() : await _audioPlayer.pause();
-                      } catch (e) {
-                        print(e);
+                IconButton(
+                    icon: Icon(btnPlay),
+                    iconSize: 50.0,
+                    color: Colors.blue,
+                    onPressed: () {
+                      if (!playing) {
+                        _audioPlayer.play(widget.audioPath, isLocal: false);
+                        setState(() {
+                          btnPlay = Icons.pause;
+                          playing = true;
+                        });
+                      } else {
+                        _audioPlayer.pause();
+                        setState(() {
+                          btnPlay = Icons.play_arrow;
+                          playing = false;
+                        });
                       }
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 3.0, horizontal: 5),
-                      child: Icon(
-                        isPlay ? Icons.pause : Icons.stop,
-                        color: Colors.blue,
-                        size: 30,
-                      ),
-                    ),
-                  ),
-                ),
+                    }),
                 StreamBuilder<Duration>(
                     initialData: duration,
                     stream: _audioPlayer.onDurationChanged,
@@ -102,7 +98,8 @@ class _PlayerState extends State<Player> {
                                 max: duration.inMilliseconds.toDouble(),
                                 onChangeEnd: (d) {
                                   if (duration > snap.data) {
-                                    _audioPlayer.seek(Duration(milliseconds: d.toInt()));
+                                    _audioPlayer.seek(
+                                        Duration(milliseconds: d.toInt()));
                                   }
                                 },
                                 onChanged: (d) {},
