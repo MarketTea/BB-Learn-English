@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lyric_audio/lib/Lyrics/lyric.dart';
 import 'package:lyric_audio/lib/Lyrics/lyric_controller.dart';
 import 'package:lyric_audio/lib/Lyrics/lyric_widget.dart';
+import 'package:lyric_audio/lib/until/constants.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -37,11 +38,7 @@ class _PlayerState extends State<Player> {
     _audioPlayer = Provider.of<AudioPlayer>(context);
     //_audioPlayer.play(widget.audioPath, isLocal: false);
     return Container(
-      // height: 250,
       child: Material(
-        // color: Colors.redAccent,
-        // borderRadius: BorderRadius.only(
-        //     topLeft: Radius.circular(20), topRight: Radius.circular(20)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
@@ -109,9 +106,35 @@ class _PlayerState extends State<Player> {
                     })
               ],
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8.0,
+                vertical: 1.0,
+              ),
+              child: _timer(context),
+            )
           ],
         ),
       ),
+    );
+  }
+
+  Widget _timer(BuildContext context) {
+    return new Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.max,
+      children: <Widget>[
+        new Text(
+          controller.progress == null
+              ? "--:--"
+              : Constants.formatDuration(controller.progress),
+          style: TextStyle(color: Colors.red),
+        ),
+        new Text(
+          duration == null ? "--:--" : Constants.formatDuration(duration),
+          style: TextStyle(color: Colors.red),
+        ),
+      ],
     );
   }
 }
