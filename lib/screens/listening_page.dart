@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lyric_audio/lib/animation/PageAnimation.dart';
-import 'package:lyric_audio/lib/bloc/player_bloc.dart';
-import 'package:lyric_audio/lib/bloc/player_event.dart';
+import 'package:learning_english/animation/PageAnimation.dart';
+import 'package:learning_english/bloc/player_bloc.dart';
+import 'package:learning_english/bloc/player_event.dart';
 
 import 'listening_detail_page.dart';
 

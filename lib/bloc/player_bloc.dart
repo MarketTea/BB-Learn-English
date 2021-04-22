@@ -1,9 +1,9 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lyric_audio/lib/Lyrics/lyric.dart';
-import 'package:lyric_audio/lib/Lyrics/lyric_util.dart';
-import 'package:lyric_audio/lib/bloc/player_event.dart';
-import 'package:lyric_audio/lib/bloc/player_state.dart';
+import 'package:learning_english/Lyrics/lyric.dart';
+import 'package:learning_english/Lyrics/lyric_util.dart';
+import 'package:learning_english/bloc/player_event.dart';
+import 'package:learning_english/bloc/player_state.dart';
 
 
 class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {

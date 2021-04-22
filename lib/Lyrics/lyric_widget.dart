@@ -14,20 +14,20 @@ class LyricWidget extends StatefulWidget {
   TextStyle lyricStyle;
   TextStyle remarkStyle;
   TextStyle currLyricStyle;
-  TextStyle currRemarkLyricStyle;
-  TextStyle draggingLyricStyle;
-  TextStyle draggingRemarkLyricStyle;
+  //TextStyle currRemarkLyricStyle;
+  //TextStyle draggingLyricStyle;
+  //TextStyle draggingRemarkLyricStyle;
   final double lyricGap;
   final double remarkLyricGap;
   bool enableDrag;
 
-  //歌词画笔数组
+  //Lyrics brush array
   List<TextPainter> lyricTextPaints = [];
 
-  //翻译/音译歌词画笔数组
+  //Translation/transliteration lyrics brush array
   List<TextPainter> subLyricTextPaints = [];
 
-  //字体最大宽度
+  //Maximum font width
   double lyricMaxWidth;
 
   LyricWidget(
@@ -41,11 +41,12 @@ class LyricWidget extends StatefulWidget {
       this.currLyricStyle,
       this.lyricGap: 10,
       this.remarkLyricGap: 20,
-      this.draggingLyricStyle,
-      this.draggingRemarkLyricStyle,
+      //this.draggingLyricStyle,
+      //this.draggingRemarkLyricStyle,
       this.enableDrag: true,
       this.lyricMaxWidth,
-      this.currRemarkLyricStyle})
+      //this.currRemarkLyricStyle
+      })
       : assert(enableDrag != null),
         assert(lyrics != null && lyrics.isNotEmpty),
         assert(size != null),
@@ -53,12 +54,11 @@ class LyricWidget extends StatefulWidget {
     this.lyricStyle ??= TextStyle(color: Colors.grey, fontSize: 14);
     this.remarkStyle ??= TextStyle(color: Colors.black, fontSize: 14);
     this.currLyricStyle ??= TextStyle(color: Colors.red, fontSize: 14);
-    this.currRemarkLyricStyle ??= this.currLyricStyle;
-    this.draggingLyricStyle ??= lyricStyle.copyWith(color: Colors.greenAccent);
-    this.draggingRemarkLyricStyle ??=
-        remarkStyle.copyWith(color: Colors.greenAccent);
+    //this.currRemarkLyricStyle ??= this.currLyricStyle;
+    //this.draggingLyricStyle ??= lyricStyle.copyWith(color: Colors.greenAccent);
+    //this.draggingRemarkLyricStyle ?? = remarkStyle.copyWith(color: Colors.greenAccent);
 
-    //歌词转画笔
+    //Lyrics to brush
     lyricTextPaints.addAll(lyrics
         .map(
           (l) => TextPainter(
@@ -67,7 +67,7 @@ class LyricWidget extends StatefulWidget {
         )
         .toList());
 
-    //翻译/音译歌词转画笔
+    //Translation/Transliteration Lyrics to Brush
     if (remarkLyrics != null && remarkLyrics.isNotEmpty) {
       subLyricTextPaints.addAll(remarkLyrics
           .map((l) => TextPainter(
@@ -114,11 +114,6 @@ class _LyricWidgetState extends State<LyricWidget> {
     super.initState();
   }
 
-  ///因空行高度与非空行高度不一致，获取非空行的位置
-  int getNotEmptyLineHeight(List<Lyric> lyrics) =>
-      lyrics.indexOf(lyrics.firstWhere((lyric) => lyric.lyric.trim().isNotEmpty,
-          orElse: () => lyrics.first));
-
   @override
   Widget build(BuildContext context) {
     if (widget.lyricMaxWidth == null ||
@@ -136,9 +131,11 @@ class _LyricWidgetState extends State<LyricWidget> {
         lyricGapValue: widget.lyricGap,
         lyricMaxWidth: widget.lyricMaxWidth,
         subLyricGapValue: widget.remarkLyricGap,
-        draggingLyricTextStyle: widget.draggingLyricStyle,
-        draggingSubLyricTextStyle: widget.draggingRemarkLyricStyle,
-        currSubLyricTextStyle: widget.currRemarkLyricStyle);
+        //draggingLyricTextStyle: widget.draggingLyricStyle,
+        //draggingSubLyricTextStyle: widget.draggingRemarkLyricStyle,
+        //currSubLyricTextStyle: widget.currRemarkLyricStyle
+    );
+
     _lyricPainter.currentLyricIndex =
         findLyricIndexByDuration(widget.controller.progress, widget.lyrics);
     if (widget.controller.isDragging) {
@@ -147,6 +144,7 @@ class _LyricWidgetState extends State<LyricWidget> {
     } else {
       _lyricPainter.offset = -computeScrollY(_lyricPainter.currentLyricIndex);
     }
+
     return widget.enableDrag
         ? GestureDetector(
             onVerticalDragUpdate: (e) {
@@ -155,7 +153,7 @@ class _LyricWidgetState extends State<LyricWidget> {
               if (temOffset < 0 && temOffset >= -totalHeight) {
                 widget.controller.draggingOffset = temOffset;
                 widget.controller.draggingLine =
-                    getCurrentDraggingLine(temOffset+widget.lyricGap);
+                    getCurrentDraggingLine(temOffset + widget.lyricGap);
                 _lyricPainter.draggingLine = widget.controller.draggingLine;
                 widget.controller.draggingProgress =
                     widget.lyrics[widget.controller.draggingLine].startTime +
@@ -229,13 +227,16 @@ class _LyricWidgetState extends State<LyricWidget> {
           animationController = null;
         }
       });
-    // 计算当前行偏移量
+
+    /// Calculate the current row offset
     var currentRowOffset = computeScrollY(currentLyricIndex);
-    //如果偏移量相同不执行动画
+
+    /// Do not perform animation if the offsets are the same
     if (currentRowOffset == widget.controller.previousRowOffset) {
       return;
     }
-    // 起始为上一行，结束点为当前行
+
+    /// The start is the previous line, and the end point is the current line
     Animation animation = Tween<double>(
             begin: widget.controller.previousRowOffset, end: currentRowOffset)
         .animate(animationController);
@@ -246,7 +247,7 @@ class _LyricWidgetState extends State<LyricWidget> {
     animationController.forward();
   }
 
-  //根据当前时长获取歌词位置
+  ///Tìm vị trí của lời bài hát theo thời lượng hiện tại
   int findLyricIndexByDuration(Duration curDuration, List<Lyric> lyrics) {
     for (int i = 0; i < lyrics.length; i++) {
       if (curDuration >= lyrics[i].startTime &&
@@ -257,25 +258,24 @@ class _LyricWidgetState extends State<LyricWidget> {
     return 0;
   }
 
-  /// 计算传入行和第一行的偏移量
+  /// Tính độ lệch giữa dòng đến và dòng đầu tiên
   double computeScrollY(int curLine) {
     double totalHeight = 0;
     for (var i = 0; i < curLine; i++) {
       var currPaint = widget.lyricTextPaints[i]
-        ..text =
-            TextSpan(text: widget.lyrics[i].lyric, style: widget.lyricStyle);
+        ..text = TextSpan(text: widget.lyrics[i].lyric, style: widget.lyricStyle);
       currPaint.layout(maxWidth: widget.lyricMaxWidth);
       totalHeight += currPaint.height + widget.lyricGap;
     }
+
     if (widget.remarkLyrics != null) {
-      //增加 当前行之前的翻译歌词的偏移量
+      ///Tăng độ lệch của lời bài hát đã dịch trước dòng hiện tại
       widget.remarkLyrics
           .where(
               (subLyric) => subLyric.endTime <= widget.lyrics[curLine].endTime)
           .toList()
           .forEach((subLyric) {
-        var currentPaint = widget
-            .subLyricTextPaints[widget.remarkLyrics.indexOf(subLyric)]
+        var currentPaint = widget.subLyricTextPaints[widget.remarkLyrics.indexOf(subLyric)]
           ..text = TextSpan(text: subLyric.lyric, style: widget.remarkStyle);
         currentPaint.layout(maxWidth: widget.lyricMaxWidth);
         totalHeight += widget.remarkLyricGap + currentPaint.height;

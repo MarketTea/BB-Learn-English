@@ -2,7 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lyric_audio/lib/screens/home_page.dart';
+import 'package:learning_english/screens/home_page.dart';
 import 'package:provider/provider.dart';
 
 import 'bloc/player_bloc.dart';

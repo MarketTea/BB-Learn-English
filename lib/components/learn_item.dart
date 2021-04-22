@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lyric_audio/lib/animation/PageAnimation.dart';
+import 'package:learning_english/animation/PageAnimation.dart';
 
 class LearnItem extends StatelessWidget {
   final Function onPress;

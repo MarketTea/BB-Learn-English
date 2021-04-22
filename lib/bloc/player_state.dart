@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:lyric_audio/lib/Lyrics/lyric.dart';
+import 'package:learning_english/Lyrics/lyric.dart';
 
 abstract class PlayerState extends Equatable {
   @override

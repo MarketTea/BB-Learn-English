@@ -1,4 +1,5 @@
-import 'package:lyric_audio/lib/models/source_new.dart';
+
+import 'package:learning_english/models/source_new.dart';
 
 class NewsArticle {
   final Source source;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lyric_audio/lib/animation/PageAnimation.dart';
-import 'package:lyric_audio/lib/models/channel_model.dart';
-import 'package:lyric_audio/lib/models/video_model.dart';
-import 'package:lyric_audio/lib/screens/video_detail_page.dart';
-import 'package:lyric_audio/lib/services/api_service.dart';
+import 'package:learning_english/animation/PageAnimation.dart';
+import 'package:learning_english/models/channel_model.dart';
+import 'package:learning_english/models/video_model.dart';
+import 'package:learning_english/screens/video_detail_page.dart';
+import 'package:learning_english/services/api_service.dart';
 
 class VideoPage extends StatefulWidget {
   @override
@@ -138,6 +138,9 @@ class _VideoPageState extends State<VideoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Video'),
+      ),
       body: _channel != null
           ? NotificationListener<ScrollNotification>(
               onNotification: (ScrollNotification scrollDetails) {

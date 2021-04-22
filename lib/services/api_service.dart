@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:lyric_audio/lib/models/artice_new.dart';
-import 'package:lyric_audio/lib/models/channel_model.dart';
-import 'package:lyric_audio/lib/models/video_model.dart';
-import 'package:lyric_audio/lib/until/keys.dart';
+import 'package:learning_english/models/artice_new.dart';
+import 'package:learning_english/models/channel_model.dart';
+import 'package:learning_english/models/video_model.dart';
+import 'package:learning_english/until/keys.dart';
 
 class APIService {
   APIService._instantiate();
@@ -25,7 +25,7 @@ class APIService {
 
       // this line will allow us to get the different articles from the json file and putting them into a list
       List<NewsArticle> articles =
-          body.map((dynamic item) => NewsArticle.fromJSON(item)).toList();
+      body.map((dynamic item) => NewsArticle.fromJSON(item)).toList();
 
       return articles;
     } else {

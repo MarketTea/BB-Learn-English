@@ -1,9 +1,9 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:lyric_audio/lib/Lyrics/lyric.dart';
-import 'package:lyric_audio/lib/Lyrics/lyric_controller.dart';
-import 'package:lyric_audio/lib/Lyrics/lyric_widget.dart';
-import 'package:lyric_audio/lib/until/constants.dart';
+import 'package:learning_english/Lyrics/lyric.dart';
+import 'package:learning_english/Lyrics/lyric_controller.dart';
+import 'package:learning_english/Lyrics/lyric_widget.dart';
+import 'package:learning_english/until/constants.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -56,25 +56,13 @@ class _PlayerState extends State<Player> {
                 : Text("No Lyric"),
             Row(
               children: <Widget>[
-                IconButton(
-                    icon: Icon(btnPlay),
-                    iconSize: 50.0,
-                    color: Colors.blue,
-                    onPressed: () {
-                      if (!playing) {
-                        _audioPlayer.play(widget.audioPath, isLocal: false);
-                        setState(() {
-                          btnPlay = Icons.pause;
-                          playing = true;
-                        });
-                      } else {
-                        _audioPlayer.pause();
-                        setState(() {
-                          btnPlay = Icons.play_arrow;
-                          playing = false;
-                        });
-                      }
-                    }),
+                SizedBox(width: 8.0),
+                Text(
+                  controller.progress == null
+                      ? "--:--"
+                      : Constants.formatDuration(controller.progress),
+                  style: TextStyle(color: Colors.blue),
+                ),
                 StreamBuilder<Duration>(
                     initialData: duration,
                     stream: _audioPlayer.onDurationChanged,
@@ -103,38 +91,67 @@ class _PlayerState extends State<Player> {
                               ),
                             );
                           });
-                    })
+                    }),
+                Text(
+                  duration == null
+                      ? "--:--"
+                      : Constants.formatDuration(duration),
+                  style: TextStyle(color: Colors.blue),
+                ),
+                SizedBox(width: 8.0),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8.0,
-                vertical: 1.0,
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  IconButton(
+                      icon: Icon(Icons.format_list_bulleted),
+                      iconSize: 30.0,
+                      color: Colors.blue,
+                      onPressed: () {}),
+                  IconButton(
+                      icon: Icon(Icons.settings_backup_restore),
+                      iconSize: 30.0,
+                      color: Colors.blue,
+                      onPressed: () {}),
+                  IconButton(
+                      icon: Icon(btnPlay),
+                      iconSize: 50.0,
+                      color: Colors.blue,
+                      onPressed: () {
+                        if (!playing) {
+                          _audioPlayer.play(widget.audioPath, isLocal: false);
+                          setState(() {
+                            btnPlay = Icons.pause;
+                            playing = true;
+                          });
+                        } else {
+                          _audioPlayer.pause();
+                          setState(() {
+                            btnPlay = Icons.play_arrow;
+                            playing = false;
+                          });
+                        }
+                      }),
+                  IconButton(
+                      icon: Icon(Icons.update),
+                      iconSize: 30.0,
+                      color: Colors.blue,
+                      onPressed: () {}),
+                  IconButton(
+                      icon: Icon(Icons.repeat),
+                      iconSize: 30.0,
+                      color: Colors.blue,
+                      onPressed: () {}),
+                ],
               ),
-              child: _timer(context),
             )
           ],
         ),
       ),
     );
   }
-
-  Widget _timer(BuildContext context) {
-    return new Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      mainAxisSize: MainAxisSize.max,
-      children: <Widget>[
-        new Text(
-          controller.progress == null
-              ? "--:--"
-              : Constants.formatDuration(controller.progress),
-          style: TextStyle(color: Colors.red),
-        ),
-        new Text(
-          duration == null ? "--:--" : Constants.formatDuration(duration),
-          style: TextStyle(color: Colors.red),
-        ),
-      ],
-    );
-  }
 }
+
+

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lyric_audio/lib/components/list_new_custom.dart';
-import 'package:lyric_audio/lib/models/artice_new.dart';
-import 'package:lyric_audio/lib/services/api_service.dart';
+import 'package:learning_english/components/list_new_custom.dart';
+import 'package:learning_english/models/artice_new.dart';
+import 'package:learning_english/services/api_service.dart';
 
 class NewsPage extends StatefulWidget {
   @override

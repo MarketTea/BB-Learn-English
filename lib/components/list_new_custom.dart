@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lyric_audio/lib/animation/PageAnimation.dart';
-import 'package:lyric_audio/lib/models/artice_new.dart';
-import 'package:lyric_audio/lib/screens/new_detail_page.dart';
+import 'package:learning_english/animation/PageAnimation.dart';
+import 'package:learning_english/models/artice_new.dart';
+import 'package:learning_english/screens/new_detail_page.dart';
 
 Widget customListTitle(NewsArticle article, BuildContext context) {
   return InkWell(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lyric_audio/lib/models/artice_new.dart';
+import 'package:learning_english/models/artice_new.dart';
 
 class NewDetailPage extends StatelessWidget {
   final NewsArticle article;

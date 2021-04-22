@@ -1,4 +1,5 @@
-import 'package:lyric_audio/lib/models/video_model.dart';
+
+import 'package:learning_english/models/video_model.dart';
 
 class Channel {
 

@@ -1,12 +1,11 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_share/flutter_share.dart';
-import 'package:lyric_audio/lib/bloc/player_bloc.dart';
-import 'package:lyric_audio/lib/bloc/player_state.dart';
-import 'package:lyric_audio/lib/components/player.dart';
-import 'package:lyric_audio/lib/until/custom_dialog_box.dart';
+import 'package:learning_english/bloc/player_bloc.dart';
+import 'package:learning_english/bloc/player_state.dart';
+import 'package:learning_english/components/player.dart';
+import 'package:learning_english/until/custom_dialog_box.dart';
 import 'package:provider/provider.dart';
 
 class ListeningDetail extends StatefulWidget {

@@ -1,13 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:lyric_audio/lib/animation/PageAnimation.dart';
-import 'package:lyric_audio/lib/components/learn_item.dart';
-import 'package:lyric_audio/lib/components/news.dart';
-import 'package:lyric_audio/lib/screens/news_page.dart';
-import 'package:lyric_audio/lib/screens/setting_page.dart';
-import 'package:lyric_audio/lib/screens/video_page.dart';
+import 'package:learning_english/animation/PageAnimation.dart';
+import 'package:learning_english/components/learn_item.dart';
+import 'package:learning_english/components/news.dart';
+import 'package:learning_english/screens/setting_page.dart';
+import 'package:learning_english/screens/video_page.dart';
 
 import 'grammar_page.dart';
+import 'news_page.dart';
 import 'vocabulary_page.dart';
 import 'listening_page.dart';
 
