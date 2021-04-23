@@ -60,12 +60,10 @@ class LyricWidget extends StatefulWidget {
 
     //Lyrics to brush
     lyricTextPaints.addAll(lyrics
-        .map(
-          (l) => TextPainter(
+        .map((l) => TextPainter(
               text: TextSpan(text: l.lyric, style: lyricStyle),
               textDirection: TextDirection.ltr),
-        )
-        .toList());
+        ).toList());
 
     //Translation/Transliteration Lyrics to Brush
     if (remarkLyrics != null && remarkLyrics.isNotEmpty) {
@@ -93,9 +91,11 @@ class _LyricWidgetState extends State<LyricWidget> {
       _lyricPainter.draggingLine = null;
       widget.controller.isDragging = false;
     };
+
     WidgetsBinding.instance.addPostFrameCallback((call) {
       totalHeight = computeScrollY(widget.lyrics.length - 1);
     });
+
     widget.controller.addListener(() {
       var curLine =
           findLyricIndexByDuration(widget.controller.progress, widget.lyrics);
@@ -111,6 +111,7 @@ class _LyricWidgetState extends State<LyricWidget> {
         widget.controller.oldLine = curLine;
       }
     });
+
     super.initState();
   }
 

@@ -36,6 +36,12 @@ dependencies:
   http: any
   youtube_player_flutter: ^6.1.1
   flutter_share: ^1.0.5
+  flutter_launcher_icons: ^0.9.0
+
+flutter_icons:
+  image_path: "icon/icon.png"
+  android: true
+  ios: true
 
 dev_dependencies:
   flutter_test:
