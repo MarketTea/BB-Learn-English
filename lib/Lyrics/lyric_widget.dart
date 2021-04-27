@@ -94,6 +94,7 @@ class _LyricWidgetState extends State<LyricWidget> {
 
     WidgetsBinding.instance.addPostFrameCallback((call) {
       totalHeight = computeScrollY(widget.lyrics.length - 1);
+      print('TEAM totalHeight: ' + totalHeight.toString());
     });
 
     widget.controller.addListener(() {
@@ -117,8 +118,7 @@ class _LyricWidgetState extends State<LyricWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.lyricMaxWidth == null ||
-        widget.lyricMaxWidth == double.infinity) {
+    if (widget.lyricMaxWidth == null || widget.lyricMaxWidth == double.infinity) {
       widget.lyricMaxWidth = MediaQuery.of(context).size.width;
     }
 
@@ -269,19 +269,19 @@ class _LyricWidgetState extends State<LyricWidget> {
       totalHeight += currPaint.height + widget.lyricGap;
     }
 
-    if (widget.remarkLyrics != null) {
-      ///Tăng độ lệch của lời bài hát đã dịch trước dòng hiện tại
-      widget.remarkLyrics
-          .where(
-              (subLyric) => subLyric.endTime <= widget.lyrics[curLine].endTime)
-          .toList()
-          .forEach((subLyric) {
-        var currentPaint = widget.subLyricTextPaints[widget.remarkLyrics.indexOf(subLyric)]
-          ..text = TextSpan(text: subLyric.lyric, style: widget.remarkStyle);
-        currentPaint.layout(maxWidth: widget.lyricMaxWidth);
-        totalHeight += widget.remarkLyricGap + currentPaint.height;
-      });
-    }
+    // if (widget.remarkLyrics != null) {
+    //   ///Tăng độ lệch của lời bài hát đã dịch trước dòng hiện tại
+    //   widget.remarkLyrics
+    //       .where(
+    //           (subLyric) => subLyric.endTime <= widget.lyrics[curLine].endTime)
+    //       .toList()
+    //       .forEach((subLyric) {
+    //     var currentPaint = widget.subLyricTextPaints[widget.remarkLyrics.indexOf(subLyric)]
+    //       ..text = TextSpan(text: subLyric.lyric, style: widget.remarkStyle);
+    //     currentPaint.layout(maxWidth: widget.lyricMaxWidth);
+    //     totalHeight += widget.remarkLyricGap + currentPaint.height;
+    //   });
+    // }
     return totalHeight;
   }
 }

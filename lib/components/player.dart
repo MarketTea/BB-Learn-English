@@ -49,19 +49,25 @@ class _PlayerState extends State<Player> {
                       lyrics: widget.lyrics,
                       controller: controller,
                       currLyricStyle: TextStyle(color: Colors.blue),
-                      lyricStyle:
-                          TextStyle(color: Colors.black.withOpacity(0.5)),
+                      lyricStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
                     ),
                   )
                 : Text("No Lyric"),
             Row(
               children: <Widget>[
                 SizedBox(width: 8.0),
-                Text(
-                  controller.progress == null
-                      ? "--:--"
-                      : Constants.formatDuration(controller.progress),
-                  style: TextStyle(color: Colors.blue),
+                StreamBuilder<Duration>(
+                  initialData: Duration(),
+                  stream: _audioPlayer.onDurationChanged,
+                  builder: (_, snapshot) {
+                    duration = snapshot.data;
+                    return Text(
+                      controller.progress == null
+                          ? "--:--"
+                          : Constants.formatDuration(controller.progress),
+                      style: TextStyle(color: Colors.blue),
+                    );
+                  },
                 ),
                 StreamBuilder<Duration>(
                     initialData: duration,
@@ -92,11 +98,18 @@ class _PlayerState extends State<Player> {
                             );
                           });
                     }),
-                Text(
-                  duration == null
-                      ? "--:--"
-                      : Constants.formatDuration(duration),
-                  style: TextStyle(color: Colors.blue),
+                StreamBuilder<Duration>(
+                  initialData: duration,
+                  stream: _audioPlayer.onAudioPositionChanged,
+                  builder: (_, snap) {
+                    controller.progress = snap.data;
+                    return Text(
+                      duration == null
+                          ? "--:--"
+                          : Constants.formatDuration(duration),
+                      style: TextStyle(color: Colors.blue),
+                    );
+                  },
                 ),
                 SizedBox(width: 8.0),
               ],
@@ -153,5 +166,3 @@ class _PlayerState extends State<Player> {
     );
   }
 }
-
-

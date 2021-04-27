@@ -101,8 +101,8 @@ class LyricPainter extends CustomPainter with ChangeNotifier {
                 ? currLyricTextStyle
                 : isDraggingLine
                     ? draggingLyricTextStyle
-                    : lyricTextStyle);
-      currentLyricTextPaint.layout(maxWidth: lyricMaxWidth);
+                    : lyricTextStyle)
+        ..layout(maxWidth: lyricMaxWidth); // <=> currentLyricTextPaint.layout
       var currentLyricHeight = currentLyricTextPaint.height;
 
       //Lyrics drawn only on the screen
