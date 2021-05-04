@@ -49,117 +49,130 @@ class _PlayerState extends State<Player> {
                       lyrics: widget.lyrics,
                       controller: controller,
                       currLyricStyle: TextStyle(color: Colors.blue),
-                      lyricStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
+                      lyricStyle:
+                          TextStyle(color: Colors.black.withOpacity(0.5)),
                     ),
                   )
                 : Text("No Lyric"),
-            Row(
-              children: <Widget>[
-                SizedBox(width: 8.0),
-                StreamBuilder<Duration>(
-                  initialData: Duration(),
-                  stream: _audioPlayer.onDurationChanged,
-                  builder: (_, snapshot) {
-                    duration = snapshot.data;
-                    return Text(
-                      controller.progress == null
-                          ? "--:--"
-                          : Constants.formatDuration(controller.progress),
-                      style: TextStyle(color: Colors.blue),
-                    );
-                  },
-                ),
-                StreamBuilder<Duration>(
-                    initialData: duration,
-                    stream: _audioPlayer.onDurationChanged,
-                    builder: (_, durationSnap) {
-                      duration = durationSnap.data;
-                      return StreamBuilder<Duration>(
-                          initialData: Duration(),
-                          stream: _audioPlayer.onAudioPositionChanged,
-                          builder: (_, snap) {
-                            controller.progress = snap.data;
-                            return Expanded(
-                              child: Slider(
-                                activeColor: Colors.blueAccent,
-                                value: snap.data.inMilliseconds.toDouble() >
-                                        duration.inMilliseconds.toDouble()
-                                    ? 0.0
-                                    : snap.data.inMilliseconds.toDouble(),
-                                max: duration.inMilliseconds.toDouble(),
-                                onChangeEnd: (d) {
-                                  if (duration > snap.data) {
-                                    _audioPlayer.seek(
-                                        Duration(milliseconds: d.toInt()));
-                                  }
-                                },
-                                onChanged: (d) {},
-                              ),
-                            );
-                          });
-                    }),
-                StreamBuilder<Duration>(
-                  initialData: duration,
-                  stream: _audioPlayer.onAudioPositionChanged,
-                  builder: (_, snap) {
-                    controller.progress = snap.data;
-                    return Text(
-                      duration == null
-                          ? "--:--"
-                          : Constants.formatDuration(duration),
-                      style: TextStyle(color: Colors.blue),
-                    );
-                  },
-                ),
-                SizedBox(width: 8.0),
-              ],
-            ),
             Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+              decoration: BoxDecoration(
+                  color: Constants.primaryColor,
+                  borderRadius:
+                  BorderRadius.only(
+                    topLeft: Radius.zero,
+                    topRight: Radius.zero,
+                    bottomLeft: Radius.zero,
+                    bottomRight: Radius.zero,)),
+              child: Column(
                 children: <Widget>[
-                  IconButton(
-                      icon: Icon(Icons.format_list_bulleted),
-                      iconSize: 30.0,
-                      color: Colors.blue,
-                      onPressed: () {}),
-                  IconButton(
-                      icon: Icon(Icons.settings_backup_restore),
-                      iconSize: 30.0,
-                      color: Colors.blue,
-                      onPressed: () {}),
-                  IconButton(
-                      icon: Icon(btnPlay),
-                      iconSize: 50.0,
-                      color: Colors.blue,
-                      onPressed: () {
-                        if (!playing) {
-                          _audioPlayer.play(widget.audioPath, isLocal: false);
-                          setState(() {
-                            btnPlay = Icons.pause;
-                            playing = true;
-                          });
-                        } else {
-                          _audioPlayer.pause();
-                          setState(() {
-                            btnPlay = Icons.play_arrow;
-                            playing = false;
-                          });
-                        }
-                      }),
-                  IconButton(
-                      icon: Icon(Icons.update),
-                      iconSize: 30.0,
-                      color: Colors.blue,
-                      onPressed: () {}),
-                  IconButton(
-                      icon: Icon(Icons.repeat),
-                      iconSize: 30.0,
-                      color: Colors.blue,
-                      onPressed: () {}),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(width: 8.0),
+                      StreamBuilder<Duration>(
+                        initialData: Duration(),
+                        stream: _audioPlayer.onDurationChanged,
+                        builder: (_, snapshot) {
+                          duration = snapshot.data;
+                          return Text(
+                            controller.progress == null
+                                ? "--:--"
+                                : Constants.formatDuration(controller.progress),
+                            style: TextStyle(color: Colors.white),
+                          );
+                        },
+                      ),
+                      StreamBuilder<Duration>(
+                          initialData: duration,
+                          stream: _audioPlayer.onDurationChanged,
+                          builder: (_, durationSnap) {
+                            duration = durationSnap.data;
+                            return StreamBuilder<Duration>(
+                                initialData: Duration(),
+                                stream: _audioPlayer.onAudioPositionChanged,
+                                builder: (_, snap) {
+                                  controller.progress = snap.data;
+                                  return Expanded(
+                                    child: Slider(
+                                      activeColor: Colors.white,
+                                      inactiveColor: Colors.grey,
+                                      value: snap.data.inMilliseconds.toDouble() > duration.inMilliseconds.toDouble() ? 0.0 : snap.data.inMilliseconds.toDouble(),
+                                      max: duration.inMilliseconds.toDouble(),
+                                      onChangeEnd: (d) {
+                                        if (duration > snap.data) {
+                                          _audioPlayer.seek(Duration(milliseconds: d.toInt()));
+                                        }
+                                      },
+                                      onChanged: (d) {},
+                                    ),
+                                  );
+                                });
+                          }),
+                      StreamBuilder<Duration>(
+                        initialData: duration,
+                        stream: _audioPlayer.onAudioPositionChanged,
+                        builder: (_, snap) {
+                          controller.progress = snap.data;
+                          return Text(
+                            duration == null
+                                ? "--:--"
+                                : Constants.formatDuration(duration),
+                            style: TextStyle(color: Colors.white),
+                          );
+                        },
+                      ),
+                      SizedBox(width: 8.0),
+                    ],
+                  ),
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        IconButton(
+                            icon: Icon(Icons.format_list_bulleted),
+                            iconSize: 30.0,
+                            color: Colors.white,
+                            onPressed: () {}),
+                        IconButton(
+                            icon: Icon(Icons.replay_10),
+                            iconSize: 30.0,
+                            color: Colors.white,
+                            onPressed: () {}),
+                        IconButton(
+                            icon: Icon(btnPlay),
+                            iconSize: 50.0,
+                            color: Colors.white,
+                            onPressed: () {
+                              if (!playing) {
+                                _audioPlayer.play(widget.audioPath,
+                                    isLocal: false);
+                                setState(() {
+                                  btnPlay = Icons.pause;
+                                  playing = true;
+                                });
+                              } else {
+                                _audioPlayer.pause();
+                                setState(() {
+                                  btnPlay = Icons.play_arrow;
+                                  playing = false;
+                                });
+                              }
+                            }),
+                        IconButton(
+                            icon: Icon(Icons.forward_10),
+                            iconSize: 30.0,
+                            color: Colors.white,
+                            onPressed: () {}),
+                        IconButton(
+                            icon: Icon(Icons.repeat),
+                            iconSize: 30.0,
+                            color: Colors.white,
+                            onPressed: () {}),
+                      ],
+                    ),
+                  )
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

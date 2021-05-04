@@ -5,6 +5,7 @@ class Constants {
 
   static const double padding = 20;
   static const double avatarRadius = 45;
+  static Color primaryColor = Color(0xff299dff);
 
   static String formatDuration(Duration duration) {
     int minute = duration.inMinutes;

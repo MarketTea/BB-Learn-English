@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:learning_english/components/list_new_custom.dart';
 import 'package:learning_english/models/artice_new.dart';
 import 'package:learning_english/services/api_service.dart';
+import 'package:learning_english/until/constants.dart';
 
 class NewsPage extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class _NewsPageState extends State<NewsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("News", style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.red,
+        backgroundColor: Constants.primaryColor,
       ),
       body: FutureBuilder(
           future: client.fetchTopHeadLines(),

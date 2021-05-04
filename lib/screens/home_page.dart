@@ -5,6 +5,7 @@ import 'package:learning_english/components/learn_item.dart';
 import 'package:learning_english/components/news.dart';
 import 'package:learning_english/screens/setting_page.dart';
 import 'package:learning_english/screens/video_page.dart';
+import 'package:learning_english/until/constants.dart';
 
 import 'grammar_page.dart';
 import 'news_page.dart';
@@ -52,7 +53,7 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-            decoration: BoxDecoration(color: Colors.red),
+            decoration: BoxDecoration(color: Constants.primaryColor),
           ),
           ListTile(
             leading: Icon(Icons.photo),

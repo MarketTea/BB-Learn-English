@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:learning_english/screens/home_page.dart';
+import 'package:learning_english/until/constants.dart';
 import 'package:provider/provider.dart';
 
 import 'bloc/player_bloc.dart';
@@ -27,8 +28,8 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-              primaryColor: Color.fromRGBO(245, 41, 40, 1),
-              accentColor: Colors.redAccent),
+              primaryColor: Constants.primaryColor,
+              accentColor: Colors.lightBlueAccent),
           home: HomePage(),
         ),
       ),

@@ -72,13 +72,9 @@ class _ListenState extends State<Listening> {
                                 ),
                                 Container(
                                   padding: EdgeInsets.all(6.0),
-                                  decoration: BoxDecoration(
-                                      color: Colors.red,
-                                      borderRadius:
-                                          BorderRadius.circular(30.0)),
                                   child: Text(
                                     listening[index].data['title'],
-                                    style: TextStyle(color: Colors.white),
+                                    style: TextStyle(color: Colors.black, fontSize: 18),
                                   ),
                                 ),
                                 SizedBox(height: 8),
@@ -87,7 +83,7 @@ class _ListenState extends State<Listening> {
                                     children: [
                                       Row(
                                         children: [
-                                          Icon(Icons.favorite_outlined,
+                                          Icon(Icons.preview_sharp,
                                               color: Colors.black38),
                                           SizedBox(width: 4),
                                           Text(
@@ -103,7 +99,7 @@ class _ListenState extends State<Listening> {
                                       SizedBox(width: 16),
                                       Row(
                                         children: [
-                                          Icon(Icons.cloud_download_sharp,
+                                          Icon(Icons.favorite_outlined,
                                               color: Colors.black38),
                                           SizedBox(width: 4),
                                           Text(
