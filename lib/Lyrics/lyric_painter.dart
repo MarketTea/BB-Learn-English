@@ -4,11 +4,9 @@ import 'lyric.dart';
 
 class LyricPainter extends CustomPainter with ChangeNotifier {
   List<Lyric> lyrics;
-  List<Lyric> subLyrics;
   Size canvasSize = Size.zero;
   double lyricMaxWidth;
   double lyricGapValue;
-  double subLyricGapValue;
 
   //Control lyrics sliding by offset
   double _offset = 0;
@@ -33,20 +31,8 @@ class LyricPainter extends CustomPainter with ChangeNotifier {
   //Lyric style
   TextStyle lyricTextStyle;
 
-  //Sliding lyrics style
-  TextStyle draggingLyricTextStyle;
-
-  //Sliding sub lyrics style
-  TextStyle draggingSubLyricTextStyle;
-
-  //Translation/Transliteration Lyrics Style
-  TextStyle subLyricTextStyle;
-
   //Current lyrics style
   TextStyle currLyricTextStyle;
-
-  //Current sub lyrics style
-  TextStyle currSubLyricTextStyle;
 
   //Swipe to the line
   int _draggingLine;
@@ -59,19 +45,12 @@ class LyricPainter extends CustomPainter with ChangeNotifier {
   }
 
   final List<TextPainter> lyricTextPaints;
-  final List<TextPainter> subLyricTextPaints;
 
-  LyricPainter(this.lyrics, this.lyricTextPaints, this.subLyricTextPaints,
-      {this.subLyrics,
-      TickerProvider vsync,
+  LyricPainter(this.lyrics, this.lyricTextPaints,
+      {TickerProvider vsync,
       this.lyricTextStyle,
-      this.subLyricTextStyle,
       this.currLyricTextStyle,
-      this.currSubLyricTextStyle,
-      this.draggingLyricTextStyle,
-      this.draggingSubLyricTextStyle,
       this.lyricGapValue,
-      this.subLyricGapValue,
       this.lyricMaxWidth});
 
   @override
@@ -85,8 +64,9 @@ class LyricPainter extends CustomPainter with ChangeNotifier {
           text: lyrics[currentLyricIndex].lyric, style: currLyricTextStyle)
       ..layout(maxWidth: lyricMaxWidth);
     var currentLyricY = _offset +
-        size.height / 2 -
+        size.height / 20 -
         lyricTextPaints[currentLyricIndex].height / 2;
+    print('Current Y: ' + currentLyricY.toString());
 
     //Traverse the lyrics to draw
     for (int lyricIndex = 0; lyricIndex < lyrics.length; lyricIndex++) {
@@ -100,7 +80,7 @@ class LyricPainter extends CustomPainter with ChangeNotifier {
             style: isCurrLine
                 ? currLyricTextStyle
                 : isDraggingLine
-                    ? draggingLyricTextStyle
+                    ? lyricTextStyle
                     : lyricTextStyle)
         ..layout(maxWidth: lyricMaxWidth); // <=> currentLyricTextPaint.layout
       var currentLyricHeight = currentLyricTextPaint.height;
@@ -116,41 +96,7 @@ class LyricPainter extends CustomPainter with ChangeNotifier {
       }
       //After the current lyrics is over, adjust the y coordinate of the next lyrics to be drawn
       currentLyricY += currentLyricHeight + lyricGapValue;
-      //If there are translated lyrics, look for the translated lyrics of the line in the future
-      if (subLyrics != null) {
-        List<Lyric> remarkLyrics = subLyrics
-            .where((subLyric) =>
-                subLyric.startTime >= currentLyric.startTime &&
-                subLyric.endTime <= currentLyric.endTime)
-            .toList();
-        remarkLyrics.forEach((remarkLyric) {
-          //Get position
-          var subIndex = subLyrics.indexOf(remarkLyric);
-
-          var currentSubPaint = subLyricTextPaints[subIndex] //设置歌词
-            ..text = TextSpan(
-                text: remarkLyric.lyric,
-                style: isCurrLine
-                    ? currSubLyricTextStyle
-                    : isDraggingLine
-                        ? draggingSubLyricTextStyle
-                        : subLyricTextStyle);
-          //Lyrics drawn only on the screen
-          if (currentLyricY < size.height && currentLyricY > 0) {
-            currentSubPaint
-              //Calculate text width and height
-              ..layout(maxWidth: lyricMaxWidth)
-              //Draw offset = Horizontal center
-              ..paint(
-                  canvas,
-                  Offset((size.width - subLyricTextPaints[subIndex].width) / 2,
-                      currentLyricY));
-          }
-          currentSubPaint..layout(maxWidth: lyricMaxWidth);
-          //After the current lyrics is over, adjust the y coordinate of the next lyrics to be drawn
-          currentLyricY += currentSubPaint.height + subLyricGapValue;
-        });
-      }
+      print('ABC_Y: ' + currentLyricY.toString());
     }
   }
 

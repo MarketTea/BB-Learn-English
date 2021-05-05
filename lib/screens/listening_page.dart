@@ -83,7 +83,7 @@ class _ListenState extends State<Listening> {
                                     children: [
                                       Row(
                                         children: [
-                                          Icon(Icons.preview_sharp,
+                                          Icon(Icons.whatshot_sharp,
                                               color: Colors.black38),
                                           SizedBox(width: 4),
                                           Text(
