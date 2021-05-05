@@ -57,12 +57,12 @@ class _PlayerState extends State<Player> {
             Container(
               decoration: BoxDecoration(
                   color: Constants.primaryColor,
-                  borderRadius:
-                  BorderRadius.only(
+                  borderRadius: BorderRadius.only(
                     topLeft: Radius.zero,
                     topRight: Radius.zero,
                     bottomLeft: Radius.zero,
-                    bottomRight: Radius.zero,)),
+                    bottomRight: Radius.zero,
+                  )),
               child: Column(
                 children: <Widget>[
                   Row(
@@ -95,11 +95,16 @@ class _PlayerState extends State<Player> {
                                     child: Slider(
                                       activeColor: Colors.white,
                                       inactiveColor: Colors.grey,
-                                      value: snap.data.inMilliseconds.toDouble() > duration.inMilliseconds.toDouble() ? 0.0 : snap.data.inMilliseconds.toDouble(),
+                                      value: snap.data.inMilliseconds
+                                                  .toDouble() >
+                                              duration.inMilliseconds.toDouble()
+                                          ? 0.0
+                                          : snap.data.inMilliseconds.toDouble(),
                                       max: duration.inMilliseconds.toDouble(),
                                       onChangeEnd: (d) {
                                         if (duration > snap.data) {
-                                          _audioPlayer.seek(Duration(milliseconds: d.toInt()));
+                                          _audioPlayer.seek(Duration(
+                                              milliseconds: d.toInt()));
                                         }
                                       },
                                       onChanged: (d) {},
@@ -133,10 +138,12 @@ class _PlayerState extends State<Player> {
                             color: Colors.white,
                             onPressed: () {}),
                         IconButton(
-                            icon: Icon(Icons.replay_10),
+                            icon: Icon(Icons.replay_5),
                             iconSize: 30.0,
                             color: Colors.white,
-                            onPressed: () {}),
+                            onPressed: () {
+                              replay5Seconds();
+                            }),
                         IconButton(
                             icon: Icon(btnPlay),
                             iconSize: 50.0,
@@ -161,7 +168,9 @@ class _PlayerState extends State<Player> {
                             icon: Icon(Icons.forward_10),
                             iconSize: 30.0,
                             color: Colors.white,
-                            onPressed: () {}),
+                            onPressed: () {
+                              forward10Seconds();
+                            }),
                         IconButton(
                             icon: Icon(Icons.repeat),
                             iconSize: 30.0,
@@ -177,5 +186,19 @@ class _PlayerState extends State<Player> {
         ),
       ),
     );
+  }
+
+  Future replay5Seconds() async {
+    var secondsReplay = controller.progress - Duration(seconds: 5);
+    print("NEED_SECONDS: " + secondsReplay.toString());
+    _audioPlayer.seek(secondsReplay);
+    return secondsReplay;
+  }
+
+  Future forward10Seconds() async {
+    var secondsForward = controller.progress + Duration(seconds: 10);
+    print("NEED_SECONDS: " + secondsForward.toString());
+    _audioPlayer.seek(secondsForward);
+    return secondsForward;
   }
 }
