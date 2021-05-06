@@ -32,7 +32,7 @@ class _ListenState extends State<Listening> {
             if (data != null) {
               var listening = data.documents;
               return ListView.builder(
-                padding: EdgeInsets.only(bottom: 155),
+                padding: EdgeInsets.only(bottom: 20),
                 itemCount: listening.length,
                 itemBuilder: (cxt, index) {
                   return Padding(

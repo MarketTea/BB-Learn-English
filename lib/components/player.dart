@@ -1,8 +1,13 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:learning_english/Lyrics/lyric.dart';
 import 'package:learning_english/Lyrics/lyric_controller.dart';
 import 'package:learning_english/Lyrics/lyric_widget.dart';
+import 'package:learning_english/animation/PageAnimation.dart';
+import 'package:learning_english/bloc/player_bloc.dart';
+import 'package:learning_english/bloc/player_event.dart';
+import 'package:learning_english/screens/listening_detail_page.dart';
 import 'package:learning_english/until/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -136,7 +141,9 @@ class _PlayerState extends State<Player> {
                             icon: Icon(Icons.format_list_bulleted),
                             iconSize: 30.0,
                             color: Colors.white,
-                            onPressed: () {}),
+                            onPressed: () {
+                              _showSheet(context);
+                            }),
                         IconButton(
                             icon: Icon(Icons.replay_5),
                             iconSize: 30.0,
@@ -188,6 +195,121 @@ class _PlayerState extends State<Player> {
     );
   }
 
+  // ignore: missing_return
+  Widget _showSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      backgroundColor: Colors.transparent,
+      builder: (abc) => DraggableScrollableSheet(
+        initialChildSize: 0.64,
+        minChildSize: 0.2,
+        maxChildSize: 1,
+        expand: false,
+        builder: (ad, scrollController) {
+          return Container(
+            color: Colors.white,
+            child: FutureBuilder(
+              future: Firestore.instance.collection("listening").getDocuments(),
+              builder: (cxt, snap) {
+                if (snap.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (snap.connectionState == ConnectionState.done) {
+                  var data = snap.data as QuerySnapshot;
+                  if (data != null) {
+                    var listening = data.documents;
+                    return ListView.builder(
+                      controller: scrollController,
+                      itemCount: listening.length,
+                      itemBuilder: (cxt, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 2.0, horizontal: 5),
+                          child: Material(
+                            borderRadius: BorderRadius.circular(5),
+                            elevation: 1,
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(5),
+                              onTap: () {
+                                Navigator.of(context)
+                                    .push(PageAnimation(child: ListeningDetail()));
+                              },
+                              child: Container(
+                                child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15.0, horizontal: 10),
+                                    child: Flexible(
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Container(
+                                            height: 50.0,
+                                            width: 100.0,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      listening[index]
+                                                          .data['image']),
+                                                  fit: BoxFit.cover),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 8.0,
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text(
+                                                  listening[index]
+                                                      .data['title'],
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                                SizedBox(height: 6.0),
+                                                Text(
+                                                    listening[index]
+                                                        .data['dateTimer'],
+                                                    style: TextStyle(
+                                                        color: Colors.black54,
+                                                        fontSize: 10.0))
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }
+                }
+                return Container();
+              },
+            ),
+            // child: ListView.builder(
+            //   controller: scrollController,
+            //   itemBuilder: (context, index) {
+            //     return ListTile(
+            //       title: Text('Item $index'),
+            //     );
+            //   },
+            //   itemCount: 20,
+            // ),
+          );
+        },
+      ),
+    );
+  }
+
   Future replay5Seconds() async {
     var secondsReplay = controller.progress - Duration(seconds: 5);
     print("NEED_SECONDS: " + secondsReplay.toString());
@@ -199,6 +321,11 @@ class _PlayerState extends State<Player> {
     var secondsForward = controller.progress + Duration(seconds: 10);
     print("NEED_SECONDS: " + secondsForward.toString());
     _audioPlayer.seek(secondsForward);
+    var songLength = duration;
+    if (secondsForward > songLength) {
+      _audioPlayer.seek(controller.progress);
+    }
+    print("NEED_LENGTH: " + songLength.toString());
     return secondsForward;
   }
 }
