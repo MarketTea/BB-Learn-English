@@ -41,6 +41,7 @@ class _PlayerState extends State<Player> {
   @override
   Widget build(BuildContext context) {
     _audioPlayer = Provider.of<AudioPlayer>(context);
+    print('NEED_CONTROLLER: ' + Constants.formatDuration(controller.progress));
     //_audioPlayer.play(widget.audioPath, isLocal: false);
     return Container(
       child: Material(
@@ -149,7 +150,11 @@ class _PlayerState extends State<Player> {
                             iconSize: 30.0,
                             color: Colors.white,
                             onPressed: () {
-                              replay5Seconds();
+                              if (!playing) {
+                                print('Nothing');
+                              } else {
+                                replay5Seconds();
+                              }
                             }),
                         IconButton(
                             icon: Icon(btnPlay),
@@ -176,7 +181,11 @@ class _PlayerState extends State<Player> {
                             iconSize: 30.0,
                             color: Colors.white,
                             onPressed: () {
-                              forward10Seconds();
+                              if (!playing) {
+                                print('Nothing');
+                              } else {
+                                forward10Seconds();
+                              }
                             }),
                         IconButton(
                             icon: Icon(Icons.repeat),
@@ -311,8 +320,14 @@ class _PlayerState extends State<Player> {
   }
 
   Future replay5Seconds() async {
+    var secondsNow = Constants.formatDuration(controller.progress);
     var secondsReplay = controller.progress - Duration(seconds: 5);
-    print("NEED_SECONDS: " + secondsReplay.toString());
+    var formatSecondsReplay = Constants.formatDuration(secondsReplay);
+
+    print("NEED_SECONDS_REPLAY:----------------- " + secondsNow.toString());
+    print("NEED_SECONDS_REPLAY:------------ " + secondsReplay.toString());
+    print("NEED_SECONDS_REPLAY:-------- " + formatSecondsReplay.toString());
+
     _audioPlayer.seek(secondsReplay);
     return secondsReplay;
   }
