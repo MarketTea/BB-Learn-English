@@ -1,3 +1,4 @@
+import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:learning_english/Lyrics/lyric_widget.dart';
 import 'package:learning_english/animation/PageAnimation.dart';
 import 'package:learning_english/bloc/player_bloc.dart';
 import 'package:learning_english/bloc/player_event.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:learning_english/screens/listening_detail_page.dart';
 import 'package:learning_english/until/constants.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +32,7 @@ class _PlayerState extends State<Player> {
   IconData btnPlay = Icons.play_arrow; // the main state of the play button
 
   AudioPlayer _audioPlayer;
+  AudioCache audioCache = AudioCache();
 
   @override
   void dispose() {
@@ -55,8 +58,7 @@ class _PlayerState extends State<Player> {
                       lyrics: widget.lyrics,
                       controller: controller,
                       currLyricStyle: TextStyle(color: Colors.blue),
-                      lyricStyle:
-                          TextStyle(color: Colors.black.withOpacity(0.5)),
+                      lyricStyle: TextStyle(color: Colors.black.withOpacity(0.5)),
                     ),
                   )
                 : Text("No Lyric"),
@@ -143,7 +145,14 @@ class _PlayerState extends State<Player> {
                             iconSize: 30.0,
                             color: Colors.white,
                             onPressed: () {
-                              _showSheet(context);
+                              if (playing) {
+                                _audioPlayer.pause();
+                                setState(() {
+                                  btnPlay = Icons.play_arrow;
+                                  playing = false;
+                                });
+                              }
+                              _showSheet();
                             }),
                         IconButton(
                             icon: Icon(Icons.replay_5),
@@ -162,8 +171,7 @@ class _PlayerState extends State<Player> {
                             color: Colors.white,
                             onPressed: () {
                               if (!playing) {
-                                _audioPlayer.play(widget.audioPath,
-                                    isLocal: false);
+                                _audioPlayer.play(widget.audioPath, isLocal: false);
                                 setState(() {
                                   btnPlay = Icons.pause;
                                   playing = true;
@@ -191,7 +199,9 @@ class _PlayerState extends State<Player> {
                             icon: Icon(Icons.repeat),
                             iconSize: 30.0,
                             color: Colors.white,
-                            onPressed: () {}),
+                            onPressed: () {
+                              audioCache.loop(widget.audioPath);
+                            }),
                       ],
                     ),
                   )
@@ -205,7 +215,7 @@ class _PlayerState extends State<Player> {
   }
 
   // ignore: missing_return
-  Widget _showSheet(BuildContext context) {
+  Widget _showSheet() {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -245,6 +255,9 @@ class _PlayerState extends State<Player> {
                               onTap: () {
                                 Navigator.of(context)
                                     .push(PageAnimation(child: ListeningDetail()));
+                                context.bloc<PlayerBloc>().add(PlayEvent(
+                                    audioUrl: listening[index].data['audio'],
+                                    lrcUrl: listening[index].data['lrc']));
                               },
                               child: Container(
                                 child: Padding(
