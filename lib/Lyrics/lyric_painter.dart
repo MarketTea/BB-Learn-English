@@ -56,16 +56,15 @@ class LyricPainter extends CustomPainter with ChangeNotifier {
   @override
   void paint(Canvas canvas, Size size) {
     canvasSize = size;
+    print('Current Y _offset: ' + _offset.toString());
+    print('Current Y height: ' + size.height.toString());
 
     //The Y coordinate of the initial lyrics is in the center
     lyricTextPaints[currentLyricIndex]
       //Set lyrics
-      ..text = TextSpan(
-          text: lyrics[currentLyricIndex].lyric, style: currLyricTextStyle)
+      ..text = TextSpan(text: lyrics[currentLyricIndex].lyric, style: currLyricTextStyle)
       ..layout(maxWidth: lyricMaxWidth);
-    var currentLyricY = _offset +
-        size.height / 20 -
-        lyricTextPaints[currentLyricIndex].height / 2;
+    var currentLyricY = _offset + size.height / 20 - lyricTextPaints[currentLyricIndex].height / 2;
     print('Current Y: ' + currentLyricY.toString());
 
     //Traverse the lyrics to draw
@@ -77,11 +76,7 @@ class LyricPainter extends CustomPainter with ChangeNotifier {
         //Set lyrics
         ..text = TextSpan(
             text: currentLyric.lyric,
-            style: isCurrLine
-                ? currLyricTextStyle
-                : isDraggingLine
-                    ? lyricTextStyle
-                    : lyricTextStyle)
+            style: isCurrLine ? currLyricTextStyle : lyricTextStyle) // style: isCurrLine ? currLyricTextStyle : isDraggingLine ? lyricTextStyle: lyricTextStyle)
         ..layout(maxWidth: lyricMaxWidth); // <=> currentLyricTextPaint.layout
       var currentLyricHeight = currentLyricTextPaint.height;
 
@@ -89,10 +84,7 @@ class LyricPainter extends CustomPainter with ChangeNotifier {
       if (currentLyricY < size.height && currentLyricY > 0) {
         //Draw lyrics to the canvas
         currentLyricTextPaint
-          ..paint(
-              canvas,
-              Offset((size.width - currentLyricTextPaint.width) / 2,
-                  currentLyricY));
+          ..paint(canvas, Offset((size.width - currentLyricTextPaint.width) / 2, currentLyricY));
       }
       //After the current lyrics is over, adjust the y coordinate of the next lyrics to be drawn
       currentLyricY += currentLyricHeight + lyricGapValue;

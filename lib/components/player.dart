@@ -152,7 +152,7 @@ class _PlayerState extends State<Player> {
                                   playing = false;
                                 });
                               }
-                              _showSheet();
+                              _showSheet(context);
                             }),
                         IconButton(
                             icon: Icon(Icons.replay_5),
@@ -215,18 +215,18 @@ class _PlayerState extends State<Player> {
   }
 
   // ignore: missing_return
-  Widget _showSheet() {
+  void _showSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       isDismissible: true,
       backgroundColor: Colors.transparent,
-      builder: (abc) => DraggableScrollableSheet(
+      builder: (_) => DraggableScrollableSheet(
         initialChildSize: 0.64,
         minChildSize: 0.2,
         maxChildSize: 1,
         expand: false,
-        builder: (ad, scrollController) {
+        builder: (_, scrollController) {
           return Container(
             color: Colors.white,
             child: FutureBuilder(
