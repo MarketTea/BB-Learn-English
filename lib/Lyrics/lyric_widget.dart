@@ -8,24 +8,15 @@ import 'lyric_painter.dart';
 // ignore: must_be_immutable
 class LyricWidget extends StatefulWidget {
   final List<Lyric> lyrics;
-  final List<Lyric> remarkLyrics;
   final Size size;
   final LyricController controller;
   TextStyle lyricStyle;
-  TextStyle remarkStyle;
   TextStyle currLyricStyle;
-  //TextStyle currRemarkLyricStyle;
-  //TextStyle draggingLyricStyle;
-  //TextStyle draggingRemarkLyricStyle;
   final double lyricGap;
-  final double remarkLyricGap;
   bool enableDrag;
 
   //Lyrics brush array
   List<TextPainter> lyricTextPaints = [];
-
-  //Translation/transliteration lyrics brush array
-  List<TextPainter> subLyricTextPaints = [];
 
   //Maximum font width
   double lyricMaxWidth;
@@ -33,30 +24,20 @@ class LyricWidget extends StatefulWidget {
   LyricWidget(
       {Key key,
       @required this.lyrics,
-      this.remarkLyrics,
       @required this.size,
       this.controller,
       this.lyricStyle,
-      this.remarkStyle,
       this.currLyricStyle,
       this.lyricGap: 10,
-      this.remarkLyricGap: 20,
-      //this.draggingLyricStyle,
-      //this.draggingRemarkLyricStyle,
       this.enableDrag: true,
       this.lyricMaxWidth,
-      //this.currRemarkLyricStyle
       })
       : assert(enableDrag != null),
         assert(lyrics != null && lyrics.isNotEmpty),
         assert(size != null),
         assert(controller != null) {
     this.lyricStyle ??= TextStyle(color: Colors.grey, fontSize: 14);
-    this.remarkStyle ??= TextStyle(color: Colors.black, fontSize: 14);
     this.currLyricStyle ??= TextStyle(color: Colors.red, fontSize: 14);
-    //this.currRemarkLyricStyle ??= this.currLyricStyle;
-    //this.draggingLyricStyle ??= lyricStyle.copyWith(color: Colors.greenAccent);
-    //this.draggingRemarkLyricStyle ?? = remarkStyle.copyWith(color: Colors.greenAccent);
 
     //Lyrics to brush
     lyricTextPaints.addAll(lyrics
@@ -65,14 +46,6 @@ class LyricWidget extends StatefulWidget {
               textDirection: TextDirection.ltr),
         ).toList());
 
-    //Translation/Transliteration Lyrics to Brush
-    if (remarkLyrics != null && remarkLyrics.isNotEmpty) {
-      subLyricTextPaints.addAll(remarkLyrics
-          .map((l) => TextPainter(
-              text: TextSpan(text: l.lyric, style: remarkStyle),
-              textDirection: TextDirection.ltr))
-          .toList());
-    }
   }
 
   @override
@@ -123,18 +96,13 @@ class _LyricWidgetState extends State<LyricWidget> {
     }
 
     _lyricPainter = LyricPainter(
-        widget.lyrics, widget.lyricTextPaints, widget.subLyricTextPaints,
+        widget.lyrics,
+        widget.lyricTextPaints,
         vsync: widget.controller.vsync,
-        subLyrics: widget.remarkLyrics,
         lyricTextStyle: widget.lyricStyle,
-        subLyricTextStyle: widget.remarkStyle,
         currLyricTextStyle: widget.currLyricStyle,
         lyricGapValue: widget.lyricGap,
         lyricMaxWidth: widget.lyricMaxWidth,
-        subLyricGapValue: widget.remarkLyricGap,
-        //draggingLyricTextStyle: widget.draggingLyricStyle,
-        //draggingSubLyricTextStyle: widget.draggingRemarkLyricStyle,
-        //currSubLyricTextStyle: widget.currRemarkLyricStyle
     );
 
     _lyricPainter.currentLyricIndex =
@@ -153,8 +121,7 @@ class _LyricWidgetState extends State<LyricWidget> {
               double temOffset = (_lyricPainter.offset + e.delta.dy);
               if (temOffset < 0 && temOffset >= -totalHeight) {
                 widget.controller.draggingOffset = temOffset;
-                widget.controller.draggingLine =
-                    getCurrentDraggingLine(temOffset + widget.lyricGap);
+                widget.controller.draggingLine = getCurrentDraggingLine(temOffset + widget.lyricGap);
                 _lyricPainter.draggingLine = widget.controller.draggingLine;
                 widget.controller.draggingProgress =
                     widget.lyrics[widget.controller.draggingLine].startTime +
@@ -264,24 +231,11 @@ class _LyricWidgetState extends State<LyricWidget> {
     double totalHeight = 0;
     for (var i = 0; i < curLine; i++) {
       var currPaint = widget.lyricTextPaints[i]
-        ..text = TextSpan(text: widget.lyrics[i].lyric, style: widget.lyricStyle);
+        ..text = TextSpan(text: widget.lyrics[i].lyric, style: widget.currLyricStyle);
       currPaint.layout(maxWidth: widget.lyricMaxWidth);
       totalHeight += currPaint.height + widget.lyricGap;
     }
 
-    // if (widget.remarkLyrics != null) {
-    //   ///Tăng độ lệch của lời bài hát đã dịch trước dòng hiện tại
-    //   widget.remarkLyrics
-    //       .where(
-    //           (subLyric) => subLyric.endTime <= widget.lyrics[curLine].endTime)
-    //       .toList()
-    //       .forEach((subLyric) {
-    //     var currentPaint = widget.subLyricTextPaints[widget.remarkLyrics.indexOf(subLyric)]
-    //       ..text = TextSpan(text: subLyric.lyric, style: widget.remarkStyle);
-    //     currentPaint.layout(maxWidth: widget.lyricMaxWidth);
-    //     totalHeight += widget.remarkLyricGap + currentPaint.height;
-    //   });
-    // }
     return totalHeight;
   }
 }
