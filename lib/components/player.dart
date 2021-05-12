@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -30,6 +32,8 @@ class _PlayerState extends State<Player> {
   LyricController controller = LyricController();
   bool playing = false; // at the beginning, not playing any song
   IconData btnPlay = Icons.play_arrow; // the main state of the play button
+  IconData btnSpeed = Icons.exposure_zero; // the main state of the play button
+  final List<double> valueSpeed = [0, 1.0, 2.0];
 
   AudioPlayer _audioPlayer;
   AudioCache audioCache = AudioCache();
@@ -45,6 +49,9 @@ class _PlayerState extends State<Player> {
   Widget build(BuildContext context) {
     _audioPlayer = Provider.of<AudioPlayer>(context);
     print('NEED_CONTROLLER: ' + Constants.formatDuration(controller.progress));
+    print("------------------NEED_SPEED:----------------- " + valueSpeed[0].toString());
+    print("------------------NEED_SPEED:----------------- " + valueSpeed[1].toString());
+    print("------------------NEED_SPEED:----------------- " + valueSpeed[2].toString());
     //_audioPlayer.play(widget.audioPath, isLocal: false);
     return Container(
       child: Material(
@@ -196,11 +203,23 @@ class _PlayerState extends State<Player> {
                               }
                             }),
                         IconButton(
-                            icon: Icon(Icons.repeat),
+                            icon: Icon(btnSpeed),
                             iconSize: 30.0,
                             color: Colors.white,
                             onPressed: () {
-                              audioCache.loop(widget.audioPath);
+                              // ignore: unrelated_type_equality_checks
+                              if (valueSpeed[0] == 0.0) {
+                                btnSpeed = Icons.exposure_zero;
+                                _audioPlayer.setPlaybackRate(playbackRate: 0.5);
+                              // ignore: unrelated_type_equality_checks
+                              } else if (valueSpeed[1] == 1.0) {
+                                btnSpeed = Icons.one_k;
+                                _audioPlayer.setPlaybackRate(playbackRate: 1.0);
+                              // ignore: unrelated_type_equality_checks
+                              } else if (valueSpeed[2] == 2.0) {
+                                btnSpeed = Icons.two_k;
+                                _audioPlayer.setPlaybackRate(playbackRate: 2.0);
+                              }
                             }),
                       ],
                     ),
