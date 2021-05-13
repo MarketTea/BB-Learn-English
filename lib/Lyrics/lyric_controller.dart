@@ -2,13 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+/// using ChangeNotifier để listen những sự thay đổi.
+
 class LyricController extends ChangeNotifier {
   //Current progress
   Duration _progress = Duration();
 
   set progress(Duration value) {
     _progress = value;
-    notifyListeners();
+    notifyListeners(); // when change will listen và notification đến các Widget liên quan
   }
 
   Duration get progress => _progress;
@@ -25,7 +27,7 @@ class LyricController extends ChangeNotifier {
 
   set isDragging(value) {
     _isDragging = value;
-    notifyListeners();
+    notifyListeners(); // when change will listen và notification đến các Widget liên quan
   }
 
   Duration draggingProgress;

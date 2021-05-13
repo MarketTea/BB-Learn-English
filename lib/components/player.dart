@@ -38,6 +38,14 @@ class _PlayerState extends State<Player> {
   AudioPlayer _audioPlayer;
   AudioCache audioCache = AudioCache();
 
+  int tappedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    tappedIndex = 0;
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -339,9 +347,17 @@ class _PlayerState extends State<Player> {
             // child: ListView.builder(
             //   controller: scrollController,
             //   itemBuilder: (context, index) {
-            //     return ListTile(
-            //       title: Text('Item $index'),
-            //     );
+            //     return Container(
+            //         color: tappedIndex == index ? Colors.blue : Colors.grey,
+            //         child: ListTile(
+            //             title: Center(
+            //               child: Text('${index + 1}'),
+            //             ),
+            //             onTap: () {
+            //               setState(() {
+            //                 tappedIndex = index;
+            //               });
+            //             }));
             //   },
             //   itemCount: 20,
             // ),
