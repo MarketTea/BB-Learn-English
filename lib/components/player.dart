@@ -37,7 +37,7 @@ class _PlayerState extends State<Player> {
 
   AudioPlayer _audioPlayer;
   AudioCache audioCache = AudioCache();
-
+  int value = 0;
   int tappedIndex;
 
   @override
@@ -210,25 +210,144 @@ class _PlayerState extends State<Player> {
                                 forward10Seconds();
                               }
                             }),
-                        IconButton(
-                            icon: Icon(btnSpeed),
-                            iconSize: 30.0,
+                        Padding(
+                          padding: EdgeInsets.only(right: 8.0),
+                          child: PopupMenuButton(
                             color: Colors.white,
-                            onPressed: () {
-                              // ignore: unrelated_type_equality_checks
-                              if (valueSpeed[0] == 0.0) {
-                                btnSpeed = Icons.exposure_zero;
-                                _audioPlayer.setPlaybackRate(playbackRate: 0.5);
-                              // ignore: unrelated_type_equality_checks
-                              } else if (valueSpeed[1] == 1.0) {
-                                btnSpeed = Icons.one_k;
-                                _audioPlayer.setPlaybackRate(playbackRate: 1.0);
-                              // ignore: unrelated_type_equality_checks
-                              } else if (valueSpeed[2] == 2.0) {
-                                btnSpeed = Icons.two_k;
-                                _audioPlayer.setPlaybackRate(playbackRate: 2.0);
-                              }
-                            }),
+                            onSelected: (newValue) {
+                              setState(() {
+                                value = newValue;
+                                if (value == 0) {
+                                  _audioPlayer.setPlaybackRate(playbackRate: 0.5);
+                                } else if (value == 1) {
+                                  _audioPlayer.setPlaybackRate(playbackRate: 2.0);
+                                } else if (value == 2) {
+                                  _audioPlayer.setPlaybackRate(playbackRate: 1.0);
+                                } else if (value == 3) {
+                                  _audioPlayer.setPlaybackRate(playbackRate: 1.25);
+                                } else if (value == 4) {
+                                  _audioPlayer.setPlaybackRate(playbackRate: 1.5);
+                                } else if (value == 5) {
+                                  _audioPlayer.setPlaybackRate(playbackRate: 1.75);
+                                } else if (value == 6) {
+                                  _audioPlayer.setPlaybackRate(playbackRate: 2.0);
+                                }
+                              });
+                            },
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                value: 0,
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                      child: Text(
+                                        '0.5x',
+                                        style: TextStyle(color: Colors.black54),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 1,
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                      child: Text(
+                                        '0.75x',
+                                        style: TextStyle(color: Colors.black54),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 2,
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                      child: Text(
+                                        '1x',
+                                        style: TextStyle(color: Colors.black54),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 3,
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                      child: Text(
+                                        '1.25x',
+                                        style: TextStyle(color: Colors.black54),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 4,
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                      EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                      child: Text(
+                                        '1.5x',
+                                        style: TextStyle(color: Colors.black54),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 5,
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                      child: Text(
+                                        '1.75x',
+                                        style: TextStyle(color: Colors.black54),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 6,
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                      child: Text(
+                                        '2x',
+                                        style: TextStyle(color: Colors.black54),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                            child: Icon(
+                              Icons.repeat,
+                              size: 30,
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   )
@@ -275,11 +394,15 @@ class _PlayerState extends State<Player> {
                           padding: const EdgeInsets.symmetric(
                               vertical: 2.0, horizontal: 5),
                           child: Material(
+                            color: tappedIndex == index ? Colors.grey[300] : Colors.white,
                             borderRadius: BorderRadius.circular(5),
                             elevation: 1,
                             child: InkWell(
                               borderRadius: BorderRadius.circular(5),
                               onTap: () {
+                                setState(() {
+                                  tappedIndex = index;
+                                });
                                 Navigator.of(context)
                                     .push(PageAnimation(child: ListeningDetail()));
                                 context.bloc<PlayerBloc>().add(PlayEvent(
