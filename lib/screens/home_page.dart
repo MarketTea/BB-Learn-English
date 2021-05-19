@@ -9,15 +9,15 @@ import 'package:learning_english/until/constants.dart';
 
 import 'grammar_page.dart';
 import 'news_page.dart';
-import 'vocabulary_page.dart';
+import 'recorder_page.dart';
 import 'listening_page.dart';
 
 class HomePage extends StatelessWidget {
   final learns = [
     {
       "src": "assets/onbarad1.png",
-      "route": VocabularyPage(),
-      "title": "Vocabulary"
+      "route": AudioRecorderPage(),
+      "title": "Audio Recorder"
     },
     {
       "src": "assets/onbarad2.png",

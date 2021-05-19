@@ -23,7 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  path_provider: ^2.0.1
+  path_provider: ^1.6.24
   cupertino_icons: ^0.1.2
   provider: ^4.0.4
   flutter_icons: ^1.0.0+1
@@ -32,11 +32,16 @@ dependencies:
   flutter_speed_dial: ^1.2.5
   flutter_bloc: ^4.0.0
   equatable: ^1.1.1
-  audioplayers: ^0.18.3
+  audioplayers: ^0.16.2
   http: any
   youtube_player_flutter: ^6.1.1
   flutter_share: ^1.0.5
-  flutter_launcher_icons: ^0.9.0
+  flutter_launcher_icons: ^0.7.2
+
+  rflutter_alert: ^1.1.0
+  flutter_audio_recorder: ^0.5.5
+  fluttertoast: ^7.1.6
+  share: ^0.6.5+4
 
 flutter_icons:
   image_path: "icon/icon.png"
