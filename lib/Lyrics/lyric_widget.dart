@@ -119,14 +119,14 @@ class _LyricWidgetState extends State<LyricWidget> {
             onVerticalDragUpdate: (e) {
               cancelTimer();
               double temOffset = (_lyricPainter.offset + e.delta.dy);
+              print("CHECK VALUE SCROLL:------" + temOffset.toString());
               if (temOffset < 0 && temOffset >= -totalHeight) {
                 widget.controller.draggingOffset = temOffset;
                 widget.controller.draggingLine = getCurrentDraggingLine(temOffset + widget.lyricGap);
                 _lyricPainter.draggingLine = widget.controller.draggingLine;
-                widget.controller.draggingProgress =
-                    widget.lyrics[widget.controller.draggingLine].startTime +
-                        Duration(milliseconds: 1);
-                widget.controller.isDragging = true;
+                print("CHECK VALUE SCROLL draggingLine:------" + _lyricPainter.draggingLine.toString());
+                widget.controller.draggingProgress = widget.lyrics[widget.controller.draggingLine].startTime + Duration(milliseconds: 1);
+                widget.controller.isDragging = false;
                 _lyricPainter.offset = temOffset;
               }
             },
