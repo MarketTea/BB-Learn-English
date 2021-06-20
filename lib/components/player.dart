@@ -37,7 +37,7 @@ class _PlayerState extends State<Player> {
 
   AudioPlayer _audioPlayer;
   AudioCache audioCache = AudioCache();
-  int value = 0;
+  int value = 2;
   int tappedIndex;
 
   @override
@@ -214,13 +214,14 @@ class _PlayerState extends State<Player> {
                           padding: EdgeInsets.only(right: 8.0),
                           child: PopupMenuButton(
                             color: Colors.white,
+                            initialValue: value,
                             onSelected: (newValue) {
                               setState(() {
                                 value = newValue;
                                 if (value == 0) {
                                   _audioPlayer.setPlaybackRate(playbackRate: 0.5);
                                 } else if (value == 1) {
-                                  _audioPlayer.setPlaybackRate(playbackRate: 2.0);
+                                  _audioPlayer.setPlaybackRate(playbackRate: 0.75);
                                 } else if (value == 2) {
                                   _audioPlayer.setPlaybackRate(playbackRate: 1.0);
                                 } else if (value == 3) {
